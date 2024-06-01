@@ -18,11 +18,15 @@ def login(credentials: LoginSchema):
     user = conn.verify_credentials(cedula, password)
 
     if user:
-        print("Usuario encontrado:", user) 
-        return {"success": True, "role": user[8], "nombre": user[1]}  # Asumiendo que 'nombre' es el segundo elemento en la tupla
+        print("Usuario encontrado:", user)
+        # Asumiendo que user[8] es el roleid y se puede mapear a un nombre de rol
+        role_mapping = {1: "Admin", 2: "Recepcionista", 3: "Guarda"}
+        role_name = role_mapping.get(user[8], "Unknown")
+        return {"success": True, "role": user[8], "role_name": role_name, "nombre": user[1]}
     else:
-        print("Credenciales incorrectas")  
+        print("Credenciales incorrectas")
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Credenciales incorrectas")
+
     
 # Ruta para cerrar sesión
 @router.post("/logout", status_code=HTTP_204_NO_CONTENT)
