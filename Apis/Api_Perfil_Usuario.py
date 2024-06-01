@@ -12,13 +12,24 @@ def login(credentials: LoginSchema):
     cedula = credentials.cedula
     password = credentials.password
 
+    print(f"Recibido cedula: {cedula}, password: {password}")  # Añadir log
+
     # Verificar las credenciales en la base de datos
     user = conn.verify_credentials(cedula, password)
 
     if user:
-        return {"success": True, "role": user[8]}  # Asumiendo que 'roleid' es el noveno elemento en la tupla
+        print("Usuario encontrado:", user) 
+        return {"success": True, "role": user[8], "nombre": user[1]}  # Asumiendo que 'nombre' es el segundo elemento en la tupla
     else:
+        print("Credenciales incorrectas")  
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Credenciales incorrectas")
+    
+# Ruta para cerrar sesión
+@router.post("/logout", status_code=HTTP_204_NO_CONTENT)
+def logout():
+    # No se necesita ningún parámetro, simplemente eliminamos la información de usuario del almacenamiento
+    # Puedes agregar cualquier otra lógica de limpieza aquí si es necesario
+    return Response(status_code=HTTP_204_NO_CONTENT)
 
 @router.get("/listar", status_code=HTTP_200_OK)
 def root():
