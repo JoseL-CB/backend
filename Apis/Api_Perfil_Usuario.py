@@ -35,11 +35,18 @@ def logout():
     # Puedes agregar cualquier otra lógica de limpieza aquí si es necesario
     return Response(status_code=HTTP_204_NO_CONTENT)
 
+# Define el mapeo de roles
+ROLES_MAPPING = {
+    1: "Admin",
+    2: "Recepcionista",
+    3: "Guarda"
+}
+
 @router.get("/listar", status_code=HTTP_200_OK)
 def root():
     items = []
     for data in conn.read_all():
-        dictionary = {
+        user_dict = {
             "id": data[0],
             "nombres": data[1],
             "apellidos": data[2],
@@ -50,7 +57,10 @@ def root():
             "sexo": data[7],
             "roleid": data[8]
         }
-        items.append(dictionary)
+        # Reemplaza roleid con el nombre del rol correspondiente
+        user_dict["rol"] = ROLES_MAPPING.get(user_dict["roleid"], "Desconocido")
+        del user_dict["roleid"]  # Elimina el campo roleid
+        items.append(user_dict)
     return items
 
 @router.get("/perfil_usuario/{id}", status_code=HTTP_200_OK)
