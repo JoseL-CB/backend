@@ -22,8 +22,8 @@ class VisitanteConnection:
         try:
             with self.conn.cursor() as cur:
                 cur.execute(""" 
-                    INSERT INTO "visitante" (nombre, apellidos, edad, cedula, relacion_paciente)
-                    VALUES (%(nombre)s, %(apellidos)s, %(edad)s, %(cedula)s, %(relacion_paciente)s)
+                    INSERT INTO "visitante" (nombres, apellidos, edad, cedula, relacion_paciente)
+                    VALUES (%(nombres)s, %(apellidos)s, %(edad)s, %(cedula)s, %(relacion_paciente)s)
                 """, data)
             self.conn.commit()
         except Exception as e:
@@ -41,7 +41,7 @@ class VisitanteConnection:
     def update(self, data):
         with self.conn.cursor() as cur:
             cur.execute("""
-                UPDATE "visitante" SET nombre = %(nombre)s, apellidos = %(apellidos)s,
+                UPDATE "visitante" SET nombres = %(nombres)s, apellidos = %(apellidos)s,
                 edad = %(edad)s, cedula = %(cedula)s, relacion_paciente = %(relacion_paciente)s
                 WHERE id = %(id)s
             """, data)

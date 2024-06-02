@@ -12,7 +12,7 @@ def listar_visitantes():
     for data in conn.read_all():
         dictionary = {
             "id": data[0],
-            "nombre": data[1],
+            "nombres": data[1],
             "apellidos": data[2],
             "edad": data[3],
             "cedula": data[4],
@@ -28,7 +28,7 @@ def get_one(id: int):
         raise HTTPException(status_code=404, detail="Visitante no encontrado")
     dictionary = {
         "id": data[0],
-        "nombre": data[1],
+        "nombres": data[1],
         "apellidos": data[2],
         "edad": data[3],
         "cedula": data[4],

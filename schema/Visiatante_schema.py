@@ -3,7 +3,7 @@ from typing import Optional
 
 class Visitante(BaseModel):
     id: Optional[int] = None
-    nombre: str
+    nombres: str
     apellidos: str
     edad: int
     cedula: int
