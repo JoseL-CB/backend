@@ -4,7 +4,7 @@ from datetime import date
 
 class Paciente(BaseModel):
     id: Optional[int] = None
-    estado: str
+    estado: int
     nombres: str
     apellidos: str
     cedula: int
